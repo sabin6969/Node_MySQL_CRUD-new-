@@ -155,5 +155,4 @@ app.listen(3000,()=>{
         password:"poudeL46@",
         database:"userdetails"
     });
-    console.log("Server has Started");
 })
