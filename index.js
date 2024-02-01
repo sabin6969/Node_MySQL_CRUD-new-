@@ -111,6 +111,41 @@ app.delete("/delete/:id",(req,res)=>{
             message:"Valid id is required"
         });
     }
+});
+
+
+app.put("/update/:id",(req,res)=>{
+    const {userName,userAge}=req.body;
+    const id = parseInt(req.params.id);
+    if(userName){
+        if(!isNaN(id) && !isNaN(parseInt(userAge))){
+            const sqlQuery = `UPDATE userinfo SET userName = '${userName}', userAge = ${userAge} WHERE userId = ${id};`
+            console.log(sqlQuery);
+            mysqlConnection.query(sqlQuery,(err,row,field)=>{
+                if(err){
+                    res.status(500).json({
+                        sucess:false,
+                        message:`User doesnot exits with id ${id}`,
+                    })
+                }else{
+                    res.status(200).json({
+                        sucess:true,
+                        message:`User details with id ${id} updated`
+                    });
+                }
+            })
+        }else{
+            res.status(400).json({
+                sucess:false,
+                messsage:"Vaild id is required"
+            });
+        }
+    }else{
+        res.status(500).json({
+            sucess:false,
+            message:"Username and Useraddress are required"
+        });
+    }
 })
 
 app.listen(3000,()=>{
