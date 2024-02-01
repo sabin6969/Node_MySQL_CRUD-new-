@@ -86,6 +86,33 @@ app.get("/get/:id",(req,res)=>{
     }
 })
 
+
+app.delete("/delete/:id",(req,res)=>{
+    const id = parseInt(req.params.id);
+    if(!isNaN(id)){
+        const sqlQuery = `DELETE FROM userinfo WHERE userId=${id}`;
+        mysqlConnection.query(sqlQuery,(err,row,field)=>{
+            if(err){
+                res.status(500).json({
+                    sucess:false,
+                    message:err,
+                });
+            }
+            else{
+                res.status(200).json({
+                    sucess:true,
+                    message:`User with ${id} is deleted`
+                });
+            }
+        })
+    }else{
+        res.status(500).json({
+            sucess:false,
+            message:"Valid id is required"
+        });
+    }
+})
+
 app.listen(3000,()=>{
     mysqlConnection = mysql.createConnection({
         host:"localhost",
