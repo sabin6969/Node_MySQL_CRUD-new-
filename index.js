@@ -62,6 +62,30 @@ app.get("/getAll",(req,res)=>{
     });
 });
 
+
+app.get("/get/:id",(req,res)=>{
+    const id = parseInt(req.params.id);
+    if(!isNaN(id)){
+        const sqlQuery = `SELECT * FROM userinfo where userid=${id}`;
+        mysqlConnection.query(sqlQuery,(err,row)=>{
+            if(err){
+                res.status(400).json({
+                    sucess:false,
+                    message:err,
+                });
+            }
+            else{
+                res.status(200).json(row);
+            }
+        })
+    }else{
+        res.status(400).json({
+            sucess:false,
+            message:"Valid id is required"
+        })
+    }
+})
+
 app.listen(3000,()=>{
     mysqlConnection = mysql.createConnection({
         host:"localhost",
