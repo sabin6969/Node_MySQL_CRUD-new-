@@ -56,7 +56,6 @@ app.get("/getAll",(req,res)=>{
                 message:err,
             });
         }else{
-            console.log(row);
             res.status(200).json(row);
         }
     });
@@ -127,7 +126,6 @@ app.put("/update/:id",(req,res)=>{
                         message:`User doesnot exits with id ${id}`,
                     })
                 }else if(row.affectedRows!==0) {
-                    console.log(row);
                     res.status(200).json({
                         sucess:true,
                         message:`User details with id ${id} updated`
