@@ -74,7 +74,14 @@ app.get("/get/:id",(req,res)=>{
                 });
             }
             else{
-                res.status(200).json(row);
+               const [userDetail]=row;
+               const {userId,userName,userAge}=userDetail;
+               console.log(userName,userAge);
+                res.status(200).json({
+                    userId:userId,
+                    userName:userName,
+                    userAge:userAge,
+                });
             }
         })
     }else{
@@ -98,10 +105,17 @@ app.delete("/delete/:id",(req,res)=>{
                 });
             }
             else{
-                res.status(200).json({
-                    sucess:true,
-                    message:`User with ${id} is deleted`
-                });
+                if(row.noOfAffectedRows===1){
+                    res.status(200).json({
+                        sucess:true,
+                        message:`User with ${id} is deleted`
+                    });
+                }else{
+                    res.status(200).json({
+                        sucess:false,
+                        message:"User doesnot exits"
+                    })
+                }
             }
         })
     }else{
@@ -125,13 +139,13 @@ app.put("/update/:id",(req,res)=>{
                         sucess:false,
                         message:`User doesnot exits with id ${id}`,
                     })
-                }else if(row.affectedRows!==0) {
+                }else if(row.affectedRows===1) {
                     res.status(200).json({
                         sucess:true,
                         message:`User details with id ${id} updated`
                     });
                 }else{
-                    res.status(400).json({
+                    res.status(200).json({
                         sucess:false,
                         message:"User details doesnot exists"
                     })
