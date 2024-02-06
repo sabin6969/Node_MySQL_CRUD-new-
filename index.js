@@ -105,17 +105,18 @@ app.delete("/delete/:id",(req,res)=>{
                 });
             }
             else{
-                if(row.noOfAffectedRows===1){
+                if(row.affectedRows){
                     res.status(200).json({
                         sucess:true,
-                        message:`User with ${id} is deleted`
+                        message:"User details deleted sucessfully"
                     });
                 }else{
                     res.status(200).json({
                         sucess:false,
-                        message:"User doesnot exits"
-                    })
+                        message:"User details doesnot exists"
+                    });
                 }
+                
             }
         })
     }else{
